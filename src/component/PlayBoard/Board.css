@@ -1,0 +1,28 @@
+
+
+.container {    
+    margin: 0 auto;
+    padding: 5px;
+    background-color: #BD1550;
+    border-radius: 15px;
+}
+
+.inner {
+    height: 100%;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(var(--matNum), 100px);
+    grid-template-rows: repeat(var(--matNum), 100px);
+}
+
+.item {
+    background-color: #490A3D;
+    border: 1px solid red;
+    padding: 10px;
+    text-align: center;
+    border-radius: 15px;
+}
+
+h2 {
+    color: #fff;
+}
