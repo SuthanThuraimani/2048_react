@@ -1,5 +1,5 @@
 body {
-    margin: 0
+    margin: 0 auto
 }
 html {
     box-sizing: border-box;
@@ -7,28 +7,20 @@ html {
 .App {
   text-align: center;
 }
+:root {
+    --matNum: 2;
+    --gridHeight: 120px;
+    --wrapperH: 40px;
+}
 
-.wrapper {
-    width: 260px;
-    height: 260px;
+.content {
+    width: 80%;
     margin: 0 auto;
-}
-.inner {
     display: flex;
-    flex-wrap: wrap;
-    border: 8px solid #ccc;
-    height: 100%;
 }
 
-.cell {
-    background-color: #490A3D;
-    border-radius: 15px;
-    color: #fff;
-    flex: 1 1 100px;
-    margin:5px;
+.border {
+    border: 2px red solid;
 }
 
-.cell h2 {
-    margin:0;
-    padding: 40px;
-}
+
