@@ -8,5 +8,6 @@ export default function Keys(props) {
         <button onClick={props.right} >Right</button>
         <button onClick={props.up} >Up</button>
         <button onClick={props.down} >Down</button>
+        <button onClick={props.reset} >Reset</button>
     </div>);
 }
