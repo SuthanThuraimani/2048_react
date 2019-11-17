@@ -5,15 +5,18 @@ import Keys from './component/Keys/Keys';
 import Score from './component/Score/Score';
 import Helper from './utils/helper';
 import Constant from './utils/constant';
+import Message from './component/Alert/Message'
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             dim: Constant.MATRIX_DIMENSION,
+            score: 0,
             data: [],
             flatData: [],
-            undo: { data: [], flatData: [] }
+            undo: { data: [], flatData: [] },
+            status: 'inprogress'
         }  
         this.leftHandler = this.moveHorizontal.bind(this, 0);
         this.rightHandler = this.moveHorizontal.bind(this, 1);
@@ -47,6 +50,7 @@ class App extends React.Component {
         e.preventDefault()
     }
     transpose = mat => mat[0].map((x, i) => mat.map(x => x[i]))
+    isGameOver = ary => !ary.includes(0)
 
     drawBoard = (ary) => {
         const cell_data = Helper.insertRandomCell(ary.flat(), Constant.INITIAL_VALUE)
@@ -57,12 +61,18 @@ class App extends React.Component {
                 data: prevState.data,
                 flatData: prevState.flatData
             }
-        }), () => console.log(this.state.undo))
-
+        }), () => console.log(this.state))
+        
         this.setState({
-            data: Helper.arrayToMatrix( cell_data, Constant.MATRIX_DIMENSION )
+            data: Helper.arrayToMatrix(cell_data, Constant.MATRIX_DIMENSION),
+            flatData: cell_data,
+            score: Math.max.apply(this, cell_data)
         });
-        this.setState({ flatData: cell_data });
+
+        if (this.isGameOver(cell_data)) {
+            this.setState({ status: 'complete' })
+        }
+
     }
     drawInitialBoard = () => {
         const initValue = Helper.getInitialMatrix( this.state.dim );
@@ -83,17 +93,19 @@ class App extends React.Component {
             flatData: prevState.undo.flatData
         }));
     }
+    
     render() { 
         return (
             <div className="App">
                 <header>
-                    <h1>2048 - GameApp</h1>
+                    <h1>2048 - Game</h1>
                 </header>
                 <div className="content">
-                    <Score />
+                    <Score score={ this.state.score } />
                     <Board dimension={ this.state.dim } matrix={ this.state.flatData }/>
                     <Keys left={ this.leftHandler } right={ this.rightHandler } up={ this.upHandler } down={ this.downHandler } reset={ this.resetHandler } undo={ this.undoHandler }  />
                 </div>
+                {(this.state.status === 'complete') && <Message msg="Game Over!" />}
             </div>
         );
     }  

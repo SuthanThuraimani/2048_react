@@ -14,8 +14,8 @@ export default function Keys(props) {
         <div>
             <button className="btnSize" onClick={props.down}> <i className="material-icons">arrow_downward</i></button>
         </div>
-        <button className="btnSize" title="reset board" onClick={props.reset}> <i className="material-icons">refresh</i></button>
-        <button className="btnSize" title="undo previous move" onClick={props.undo}> <i className="material-icons">undo</i></button>
+        <button className="btnSize" title="reset board" onClick={props.reset}>reset<i className="material-icons">refresh</i></button>
+        <button className="btnSize" title="undo previous move" onClick={props.undo}>undo<i className="material-icons">undo</i></button>
         
     </div>);
 }
