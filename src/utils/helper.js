@@ -2,7 +2,8 @@
 const getInitialMatrix = (n) => new Array(n).fill().map((e, i) => new Array(n).fill(0));
 const getEmptyCells = (ary) => ary.map((ele, idx) => (ele === 0) ? idx : 'EMPTY').filter(ele => ele !== 'EMPTY');
 const isEmptyAvailable = (ary) => getEmptyCells(ary).length === 0;
-
+const transpose = mat => mat[0].map((x, i) => mat.map(x => x[i]));
+const isGameOver = ary => !ary.includes(0);
 //First calculate empty cells and find random index
 const insertRandomCell = (ary, val) => {
     const presentMatrix = [...ary];
@@ -47,5 +48,5 @@ const arrayToMatrix = (ary, size) => {
     while (inputAry.length > 0) newArray.push(inputAry.splice(0, size));
     return newArray;
 }
-export default { insertRandomCell, getInitialMatrix, arrayToMatrix, isEmptyAvailable, moveNumbers}
+export default { insertRandomCell, getInitialMatrix, arrayToMatrix, isEmptyAvailable, moveNumbers, transpose, isGameOver}
 

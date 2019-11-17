@@ -49,11 +49,9 @@ class App extends React.Component {
         }
         e.preventDefault()
     }
-    transpose = mat => mat[0].map((x, i) => mat.map(x => x[i]))
-    isGameOver = ary => !ary.includes(0)
 
     drawBoard = (ary) => {
-        const cell_data = Helper.insertRandomCell(ary.flat(), Constant.INITIAL_VALUE)
+        const cell_data = Helper.insertRandomCell([...ary].flat(), Constant.INITIAL_VALUE)
         this.setState(prevState => ({
             ...prevState,
             undo: {
@@ -61,7 +59,7 @@ class App extends React.Component {
                 data: prevState.data,
                 flatData: prevState.flatData
             }
-        }), () => console.log(this.state))
+        }))
         
         this.setState({
             data: Helper.arrayToMatrix(cell_data, Constant.MATRIX_DIMENSION),
@@ -69,10 +67,9 @@ class App extends React.Component {
             score: Math.max.apply(this, cell_data)
         });
 
-        if (this.isGameOver(cell_data)) {
+        if (Helper.isGameOver(cell_data)) {
             this.setState({ status: 'complete' })
         }
-
     }
     drawInitialBoard = () => {
         const initValue = Helper.getInitialMatrix( this.state.dim );
@@ -83,8 +80,8 @@ class App extends React.Component {
         this.drawBoard(updatedCells);
     }
     moveVertical = (dir) => {
-        const updatedCells = this.transpose( this.state.data ).map(row => Helper.moveNumbers(row, dir, Constant.MATRIX_DIMENSION));
-        this.drawBoard( this.transpose( updatedCells ) );
+        const updatedCells = Helper.transpose( this.state.data ).map(row => Helper.moveNumbers(row, dir, Constant.MATRIX_DIMENSION));
+        this.drawBoard( Helper.transpose( updatedCells ) );
     }
     undoChanges = () => {
         this.setState(prevState => ({

@@ -13,17 +13,18 @@
 .btnWidth {
     width: 50%;
 }
+button {
+    display: inline-flex;
+    justify-content: center;
+    align-content: center;
+}
 button:hover {
     background-color: #490A3D;
     color: #fff;
     border: 2px #490A3D solid;
 }
 
-button {
-    display: inline-flex;
-    justify-content: center;
-    align-content: center;
-}
+
 
 
 
