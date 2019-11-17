@@ -3,6 +3,11 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Functionalities Implemented:
+- 4 direction cell merge
+- reset, undo functionalities
+- it works with keyboard keys as well (upward,forward,downward,back)
+
 ## Available Scripts
 
 In the project directory, you can run:
