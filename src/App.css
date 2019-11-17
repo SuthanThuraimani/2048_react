@@ -9,18 +9,19 @@ html {
 }
 :root {
     --matNum: 2;
-    --gridHeight: 120px;
-    --wrapperH: 40px;
 }
 
 .content {
-    width: 80%;
+    width: 70%;
     margin: 0 auto;
     display: flex;
 }
-
-.border {
-    border: 2px red solid;
+.score { 
+    width: 150px;
+    height: 200px;
+    text-decoration-style: solid;
+    border: 3px gray solid
 }
+
 
 
