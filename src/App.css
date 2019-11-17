@@ -1,3 +1,6 @@
+:root {
+    --matNum: 2;
+}
 body {
     margin: 0 auto
 }
@@ -5,22 +8,35 @@ html {
     box-sizing: border-box;
 }
 .App {
-  text-align: center;
+    text-align: center;
 }
-:root {
-    --matNum: 2;
-}
-
 .content {
     width: 70%;
     margin: 0 auto;
     display: flex;
 }
-.score { 
+.score {
     width: 150px;
     height: 200px;
-    text-decoration-style: solid;
-    border: 3px gray solid
+    font-size: x-large;
+    display: flex;
+    flex-direction: column;
+}
+.msg {
+    height: 100vH;
+    width: 100vW;
+    position: absolute;
+    top: 0;
+    font-weight: bold;
+    background-color: #ffffff;
+    opacity: 0.9;
+    filter: alpha(opacity=60);
+    font-size: xx-large;
+
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
 }
 
 

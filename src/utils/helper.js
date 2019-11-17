@@ -38,12 +38,14 @@ const fillWithDefault = (input, dir, len) => {
         return [(new Array(len - input.length).fill(0)), ...input].flat()
     }    
 }
+
+//convert flatten array to arraylist (matrix format)
+// input: [1,2,3,4], output: [[1,2][3,4]]
 const arrayToMatrix = (ary, size) => {
     const inputAry = [...ary];
     const newArray = [];
     while (inputAry.length > 0) newArray.push(inputAry.splice(0, size));
     return newArray;
 }
-
 export default { insertRandomCell, getInitialMatrix, arrayToMatrix, isEmptyAvailable, moveNumbers}
 
