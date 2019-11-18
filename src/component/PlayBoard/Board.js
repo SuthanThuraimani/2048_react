@@ -2,7 +2,7 @@ import React from 'react';
 import './Board.css'
 
 export default function Board(props) { 
-    var color_map = new Map([[2, '#C0C0C0'], [4, '#C48189'], [8, '#808000'], [16, '#00FFFF'], [32, '#4863A0'], [64, '#57E964'], [128, '#F433FF'],[256, '#FFFB33'],[512, '#FC33FF'],[1024, '#1F2FDA']]);
+    var color_map = new Map([[2, '#C0C0C0'], [4, '#C48189'], [8, '#808000'], [16, '#00FFFF'], [32, '#4863A0'], [64, '#57E964'], [128, '#F433FF'],[256, '#FFFB33'],[512, '#FC33FF'],[1024, '#1F2FDA'],[2048, '#DA1FA9']]);
    
     return (        
         <div className="container">
