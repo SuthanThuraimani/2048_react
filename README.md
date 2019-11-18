@@ -4,9 +4,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 Functionalities Implemented:
-- 4 direction cell merge
-- reset, undo functionalities
-- it works with keyboard keys as well (upward,forward,downward,back)
+- This app can work with any number of dimentions, it can be configured via utils/constants.js (MATRIX_DIMENSION)
+- 4 direction cell merge through keyboard keys (upward,forward,downward,back) and through UI buttons
+- Reset, undo functionalities
+- Score is implemented with just showing the max value from the board
 
 ## Available Scripts
 
