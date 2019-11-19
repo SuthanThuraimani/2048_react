@@ -4,6 +4,7 @@ const getEmptyCells = (ary) => ary.map((ele, idx) => (ele === 0) ? idx : 'EMPTY'
 const isEmptyAvailable = (ary) => getEmptyCells(ary).length === 0;
 const transpose = mat => mat[0].map((x, i) => mat.map(x => x[i]));
 const isGameOver = ary => !ary.includes(0);
+const processMatrix = (ary, dir, dim) => ary.map(row => processRowTiles(row, dir, dim));
 //First calculate empty cells and find random index
 const insertRandomCell = (ary, val) => {
     const presentMatrix = [...ary];
@@ -15,9 +16,16 @@ const insertRandomCell = (ary, val) => {
 
 // Merge and move numbers in each row or column, 0->left,up 1->right,down
 // input: [2,2,0,2], output: [4,2,0,0]
-const moveNumbers = (ary, dir, len) => {
+const processRowTiles = (ary, dir, len) => {
     const flatData = (dir === 1) ? [...ary].reverse() : [...ary];
-    const mergedCell = flatData.reduce(function (prev, next) {
+    const merged = mergeTiles(flatData);
+    if (dir === 1) {
+        merged.reverse();
+    }
+    return moveTiles(merged, dir, len);
+}
+const mergeTiles = (fdata) => {    
+    return [...fdata].reduce(function (prev, next) {
         const last = prev.slice(prev.length - 1, prev.length)[0];
         if (last === next) {
             prev = [...prev.slice(0, -1), parseInt(last) + parseInt(next), 0];
@@ -25,18 +33,14 @@ const moveNumbers = (ary, dir, len) => {
             prev = [...prev, next];
         }
         return prev;
-    }, []).filter(i => i)
-    if (dir === 1) {
-        mergedCell.reverse();
-    }
-    return fillWithDefault(mergedCell, dir, len);
+    }, []) 
 }
-
-const fillWithDefault = (input, dir, len) => {
+const moveTiles = (input, dir, len) => {
+    const nonZero = [...input].filter(i => i)
     if (dir === 0) {
-        return [...input, (new Array(len - input.length).fill(0))].flat()
+        return [...nonZero, ...new Array(len - nonZero.length).fill(0)]
     } else {
-        return [(new Array(len - input.length).fill(0)), ...input].flat()
+        return [...new Array(len - nonZero.length).fill(0), ...nonZero]
     }    
 }
 
@@ -48,5 +52,5 @@ const arrayToMatrix = (ary, size) => {
     while (inputAry.length > 0) newArray.push(inputAry.splice(0, size));
     return newArray;
 }
-export default { insertRandomCell, getInitialMatrix, arrayToMatrix, isEmptyAvailable, moveNumbers, transpose, isGameOver}
+export default { insertRandomCell, getInitialMatrix, arrayToMatrix, isEmptyAvailable, processMatrix, transpose, isGameOver}
 
