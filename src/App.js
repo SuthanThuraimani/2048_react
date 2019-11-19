@@ -27,7 +27,7 @@ class App extends React.Component {
     }
     componentDidMount() {
         this.drawInitialBoard();
-        document.documentElement.style.setProperty("--matNum", Constant.MATRIX_DIMENSION); 
+        document.documentElement.style.setProperty("--matNum", this.state.dim); 
         document.addEventListener("keydown", this.keyPressHandler.bind(this) , true);
     }
     keyPressHandler = (e) => {
@@ -51,7 +51,7 @@ class App extends React.Component {
     }
 
     drawBoard = (ary, value) => {
-        const cell_data = Helper.insertRandomCell([...ary].flat(), Constant.INITIAL_VALUE)
+        const cell_data = Helper.insertRandomCell( [...ary].flat(), Constant.INITIAL_VALUE )
         this.setState(prevState => ({
             ...prevState,
             undo: {
@@ -60,28 +60,27 @@ class App extends React.Component {
                 flatData: prevState.flatData,
                 score: prevState.score
             }
-        }))
-        
+        }))        
         this.setState( prevState => ({
-            data: Helper.arrayToMatrix(cell_data, Constant.MATRIX_DIMENSION),
+            data: Helper.arrayToMatrix(cell_data, this.state.dim),
             flatData: cell_data,
             score: Math.max(...cell_data)/*(value === 0) ? value : prevState.score + value*/
-        }));
-
-        if (Helper.isGameOver(cell_data)) {
-            this.setState({ active: false })
-        }
+        }), () => {
+                if (!Helper.isGameActive( this.state.data, this.state.flatData )) {
+                    this.setState({ active: false })
+                }
+        });        
     }
     drawInitialBoard = () => {
         const initValue = Helper.getInitialMatrix( this.state.dim );
         this.drawBoard( initValue, 0 );
     }   
     moveHorizontal = (dir) => {
-        const updatedCells = Helper.processMatrix(this.state.data, dir, Constant.MATRIX_DIMENSION );
+        const updatedCells = Helper.processMatrix(this.state.data, dir, this.state.dim );
         this.drawBoard( updatedCells, 0);
     }
     moveVertical = (dir) => {
-        const updatedCells = Helper.processMatrix(Helper.transpose( this.state.data ), dir, Constant.MATRIX_DIMENSION);
+        const updatedCells = Helper.processMatrix(Helper.transpose( this.state.data ), dir, this.state.dim )
         this.drawBoard( Helper.transpose( updatedCells ), 0);
     }
     undoChanges = () => {

@@ -3,7 +3,17 @@ const getInitialMatrix = (n) => new Array(n).fill().map((e, i) => new Array(n).f
 const getEmptyCells = (ary) => ary.map((ele, idx) => (ele === 0) ? idx : 'EMPTY').filter(ele => ele !== 'EMPTY');
 const isEmptyAvailable = (ary) => getEmptyCells(ary).length === 0;
 const transpose = mat => mat[0].map((x, i) => mat.map(x => x[i]));
-const isGameOver = ary => !ary.includes(0);
+const isGameActive = (data, fdata) => {
+    if (fdata.includes(0) || movePossible(data) || movePossible(transpose(data))) {
+        return true;
+    }
+    return false;
+}
+const movePossible = (aryMatrix) => {
+    return aryMatrix.some(b => {
+        return b.some((a, pos, self) => (pos - self.indexOf(a) === 1))
+    })
+};
 const processMatrix = (ary, dir, dim) => ary.map(row => processRowTiles(row, dir, dim));
 //First calculate empty cells and find random index
 const insertRandomCell = (ary, val) => {
@@ -52,5 +62,5 @@ const arrayToMatrix = (ary, size) => {
     while (inputAry.length > 0) newArray.push(inputAry.splice(0, size));
     return newArray;
 }
-export default { insertRandomCell, getInitialMatrix, arrayToMatrix, isEmptyAvailable, processMatrix, transpose, isGameOver}
+export default { insertRandomCell, getInitialMatrix, arrayToMatrix, isEmptyAvailable, processMatrix, transpose, isGameActive}
 
