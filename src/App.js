@@ -15,8 +15,8 @@ class App extends React.Component {
             score: 0,
             data: [],
             flatData: [],
-            undo: { data: [], flatData: [] },
-            status: 'inprogress'
+            undo: { data: [], flatData: [], score: 0},
+            active: true
         }  
         this.leftHandler = this.moveHorizontal.bind(this, 0);
         this.rightHandler = this.moveHorizontal.bind(this, 1);
@@ -31,6 +31,7 @@ class App extends React.Component {
         document.addEventListener("keydown", this.keyPressHandler.bind(this) , true);
     }
     keyPressHandler = (e) => {
+        e.preventDefault()
         switch (e.key) {
             case "ArrowLeft":
                 this.leftHandler()
@@ -47,47 +48,48 @@ class App extends React.Component {
             default:
                 return;
         }
-        e.preventDefault()
     }
 
-    drawBoard = (ary) => {
+    drawBoard = (ary, value) => {
         const cell_data = Helper.insertRandomCell([...ary].flat(), Constant.INITIAL_VALUE)
         this.setState(prevState => ({
             ...prevState,
             undo: {
                 ...prevState.undo,
                 data: prevState.data,
-                flatData: prevState.flatData
+                flatData: prevState.flatData,
+                score: prevState.score
             }
         }))
         
-        this.setState({
+        this.setState( prevState => ({
             data: Helper.arrayToMatrix(cell_data, Constant.MATRIX_DIMENSION),
             flatData: cell_data,
-            score: Math.max.apply(this, cell_data)
-        });
+            score: Math.max(...cell_data)/*(value === 0) ? value : prevState.score + value*/
+        }));
 
         if (Helper.isGameOver(cell_data)) {
-            this.setState({ status: 'complete' })
+            this.setState({ active: false })
         }
     }
     drawInitialBoard = () => {
         const initValue = Helper.getInitialMatrix( this.state.dim );
-        this.drawBoard( initValue );
+        this.drawBoard( initValue, 0 );
     }   
     moveHorizontal = (dir) => {
-        const updatedCells = this.state.data.map( row => Helper.moveNumbers(row, dir, Constant.MATRIX_DIMENSION));
-        this.drawBoard(updatedCells);
+        const updatedCells = Helper.processMatrix(this.state.data, dir, Constant.MATRIX_DIMENSION );
+        this.drawBoard( updatedCells, 0);
     }
     moveVertical = (dir) => {
-        const updatedCells = Helper.transpose( this.state.data ).map(row => Helper.moveNumbers(row, dir, Constant.MATRIX_DIMENSION));
-        this.drawBoard( Helper.transpose( updatedCells ) );
+        const updatedCells = Helper.processMatrix(Helper.transpose( this.state.data ), dir, Constant.MATRIX_DIMENSION);
+        this.drawBoard( Helper.transpose( updatedCells ), 0);
     }
     undoChanges = () => {
         this.setState(prevState => ({
             ...prevState,
             data: prevState.undo.data,
-            flatData: prevState.undo.flatData
+            flatData: prevState.undo.flatData,
+            score: prevState.undo.score
         }));
     }
     
@@ -102,7 +104,7 @@ class App extends React.Component {
                     <Board dimension={ this.state.dim } matrix={ this.state.flatData }/>
                     <Keys left={ this.leftHandler } right={ this.rightHandler } up={ this.upHandler } down={ this.downHandler } reset={ this.resetHandler } undo={ this.undoHandler }  />
                 </div>
-                {(this.state.status === 'complete') && <Message msg="Game Over!" />}
+                {(!this.state.active) && <Message msg="Game Over!" />}
             </div>
         );
     }  
