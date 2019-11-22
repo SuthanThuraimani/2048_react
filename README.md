@@ -8,6 +8,7 @@ Functionalities Implemented:
 - 4 direction cell merge through keyboard keys (upward,forward,downward,back) and through UI buttons
 - Reset, undo functionalities
 - Score is implemented with just showing the max value from the board
+
 Unit Testing:
   - unit testing using jest-enzyme
   - jest coverage reports
