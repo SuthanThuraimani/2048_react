@@ -1,17 +1,15 @@
-
 const getInitialMatrix = (n) => new Array(n).fill().map((e, i) => new Array(n).fill(0));
 const getEmptyCells = (ary) => ary.map((ele, idx) => (ele === 0) ? idx : 'EMPTY').filter(ele => ele !== 'EMPTY');
-const isEmptyAvailable = (ary) => getEmptyCells(ary).length === 0;
 const transpose = mat => mat[0].map((x, i) => mat.map(x => x[i]));
-const isGameActive = (data, fdata) => {
-    if (fdata.includes(0) || movePossible(data) || movePossible(transpose(data))) {
+const isGameActive = (data) => {
+    if (movePossible(data) || movePossible(transpose(data))) {
         return true;
     }
     return false;
 }
 const movePossible = (aryMatrix) => {
     return aryMatrix.some(b => {
-        return b.some((a, pos, self) => (pos - self.indexOf(a) === 1))
+        return b.includes(0) || b.some((a, pos, self) => (pos - self.indexOf(a) === 1))
     })
 };
 const processMatrix = (ary, dir, dim) => ary.map(row => processRowTiles(row, dir, dim));
@@ -36,9 +34,9 @@ const processRowTiles = (ary, dir, len) => {
 }
 const mergeTiles = (fdata) => {    
     return [...fdata].reduce(function (prev, next) {
-        const last = prev.slice(prev.length - 1, prev.length)[0];
+        const last = prev[prev.length-1];        ;
         if (last === next) {
-            prev = [...prev.slice(0, -1), parseInt(last) + parseInt(next), 0];
+            prev = [...prev.slice(0, -1), parseInt(last) + parseInt(next) , 0];
         } else if (next !== 0) {
             prev = [...prev, next];
         }
@@ -54,13 +52,25 @@ const moveTiles = (input, dir, len) => {
     }    
 }
 
-//convert flatten array to arraylist (matrix format)
+//convert array to arraylist (matrix format)
 // input: [1,2,3,4], output: [[1,2][3,4]]
-const arrayToMatrix = (ary, size) => {
+const convertToMatrix = (ary, size) => {
     const inputAry = [...ary];
     const newArray = [];
     while (inputAry.length > 0) newArray.push(inputAry.splice(0, size));
     return newArray;
 }
-export default { insertRandomCell, getInitialMatrix, arrayToMatrix, isEmptyAvailable, processMatrix, transpose, isGameActive}
+//sum of difference in tile value between last 2 moves
+const getMergedScore = ( beforeMove, afterMove ) => {
+    const next = [...afterMove].filter( i => i );
+    const prev = [...beforeMove].filter( i => i );
+    
+    prev.forEach(element => {
+        if (next.indexOf(element) >= 0) next.splice(next.indexOf(element), 1);
+    });
+    return next.reduce( (total, item) => {
+            return (item > 2) ? total + item: total;
+        }, 0)
+}
+export default { insertRandomCell, getInitialMatrix, convertToMatrix, processMatrix, transpose, getMergedScore, isGameActive}
 

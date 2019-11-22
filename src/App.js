@@ -50,8 +50,9 @@ class App extends React.Component {
         }
     }
 
-    drawBoard = (ary, value) => {
+    drawBoard = ( ary ) => {
         const cell_data = Helper.insertRandomCell( [...ary].flat(), Constant.INITIAL_VALUE )
+        //store previous state for undo functionality
         this.setState(prevState => ({
             ...prevState,
             undo: {
@@ -60,31 +61,32 @@ class App extends React.Component {
                 flatData: prevState.flatData,
                 score: prevState.score
             }
-        }))        
+        }))       
         this.setState( prevState => ({
-            data: Helper.arrayToMatrix(cell_data, this.state.dim),
+            data: Helper.convertToMatrix(cell_data, this.state.dim),
             flatData: cell_data,
-            score: Math.max(...cell_data)/*(value === 0) ? value : prevState.score + value*/
+            score: parseInt(Helper.getMergedScore( prevState.flatData, cell_data )) + prevState.score
         }), () => {
-                if (!Helper.isGameActive( this.state.data, this.state.flatData )) {
+                if (!Helper.isGameActive( this.state.data )) {
                     this.setState({ active: false })
                 }
-        });        
+            });        
     }
     drawInitialBoard = () => {
         const initValue = Helper.getInitialMatrix( this.state.dim );
-        this.drawBoard( initValue, 0 );
+        this.setState( {score: 0} )
+        this.drawBoard( initValue );
     }   
     moveHorizontal = (dir) => {
         const updatedCells = Helper.processMatrix(this.state.data, dir, this.state.dim );
-        this.drawBoard( updatedCells, 0);
+        this.drawBoard( updatedCells );
     }
     moveVertical = (dir) => {
         const updatedCells = Helper.processMatrix(Helper.transpose( this.state.data ), dir, this.state.dim )
         this.drawBoard( Helper.transpose( updatedCells ), 0);
     }
     undoChanges = () => {
-        this.setState(prevState => ({
+        (this.state.undo.data.length > 0) && this.setState(prevState => ({
             ...prevState,
             data: prevState.undo.data,
             flatData: prevState.undo.flatData,
