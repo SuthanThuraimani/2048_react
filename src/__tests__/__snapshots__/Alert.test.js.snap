@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Board should render correctly 1`] = `
+<div
+  className="msg"
+/>
+`;
+
+exports[`Message should render correctly 1`] = `
+<div
+  className="msg"
+>
+  success
+</div>
+`;
