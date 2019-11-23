@@ -1,9 +1,10 @@
 import React from 'react';
+import './Score.css';
 
 const Score = (props) => {
         return (<div className="score">
-                    Score
-                    <div>{ props.score }</div>
+                    score
+                    <div className="score-display">{ props.score }</div>
                     </div>);
 }
 export default Score;

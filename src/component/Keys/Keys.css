@@ -17,6 +17,8 @@ button {
     display: inline-flex;
     justify-content: center;
     align-content: center;
+    color: #490A3D;
+    background-color:lightblue;
 }
 button:hover {
     background-color: #490A3D;
