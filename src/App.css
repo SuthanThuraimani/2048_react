@@ -15,13 +15,7 @@ html {
     margin: 0 auto;
     display: flex;
 }
-.score {
-    width: 150px;
-    height: 200px;
-    font-size: x-large;
-    display: flex;
-    flex-direction: column;
-}
+
 .msg {
     height: 100vH;
     width: 100vW;

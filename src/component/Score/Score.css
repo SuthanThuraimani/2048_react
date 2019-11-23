@@ -1,0 +1,58 @@
+.score {
+    width: 150px;
+    height: 150px;
+    font-size: x-large;
+    display: flex;
+    flex-direction: column;
+    font-weight: 300;
+    background-color: lightblue;
+    box-shadow: 0 0 5px #490A3D;
+}
+
+.score-display {
+    color: #490A3D;
+    align-self: center;
+    font-weight:900;
+    font-size:40px;
+    padding-top:30px;
+    position: relative;
+    -webkit-animation-name: score;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-direction: reverse;
+    animation-name: score;
+    animation-duration: 1s;
+    animation-direction: reverse;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes score {
+    0% {
+        left: 0px;
+        top: 0px;
+    }
+
+    50% {
+        font-size: 40px;
+    }
+
+    100% {
+        left: 0px;
+        top: 0px;
+    }
+}
+
+@keyframes score {
+    0% {
+        left: 0px;
+        top: 0px;
+    }
+
+    50% {
+        font-size:50px;     
+    }
+
+    100% {
+        left: 0px;
+        top: 0px;
+    }
+}
