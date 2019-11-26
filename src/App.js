@@ -22,13 +22,11 @@ class App extends React.Component {
         this.rightHandler = this.moveHorizontal.bind(this, 1);
         this.upHandler = this.moveVertical.bind(this, 0);
         this.downHandler = this.moveVertical.bind(this, 1);
-        this.resetHandler = this.drawInitialBoard.bind(this);
-        this.undoHandler = this.undoChanges.bind(this);
     }
     componentDidMount() {
         this.drawInitialBoard();
         document.documentElement.style.setProperty("--matNum", this.state.dim); 
-        document.addEventListener("keydown", this.keyPressHandler.bind(this) , true);
+        document.addEventListener("keydown", this.keyPressHandler, true);
     }
     keyPressHandler = (e) => {
         e.preventDefault()
@@ -52,7 +50,6 @@ class App extends React.Component {
 
     drawBoard = ( ary ) => {
         const cell_data = Helper.insertRandomCell( [...ary].flat(), Constant.INITIAL_VALUE )
-        //store previous state for undo functionality
         this.setState(prevState => ({
             ...prevState,
             undo: {
@@ -85,7 +82,7 @@ class App extends React.Component {
         const updatedCells = Helper.processMatrix(Helper.transpose( this.state.data ), dir, this.state.dim )
         this.drawBoard( Helper.transpose( updatedCells ), 0);
     }
-    undoChanges = () => {
+    undoHandler = () => {
         (this.state.undo.data.length > 0) && this.setState(prevState => ({
             ...prevState,
             data: prevState.undo.data,
@@ -103,7 +100,7 @@ class App extends React.Component {
                 <div className="content">
                     <Score score={ this.state.score } />
                     <Board dimension={ this.state.dim } matrix={ this.state.flatData }/>
-                    <Keys left={ this.leftHandler } right={ this.rightHandler } up={ this.upHandler } down={ this.downHandler } reset={ this.resetHandler } undo={ this.undoHandler }  />
+                    <Keys left={ this.leftHandler } right={ this.rightHandler } up={ this.upHandler } down={ this.downHandler } reset={ this.drawInitialBoard } undo={ this.undoHandler }  />
                 </div>
                 {(!this.state.active) && <Message msg="Game Over!" />}
             </div>

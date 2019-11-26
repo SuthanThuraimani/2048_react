@@ -19,6 +19,7 @@ button {
     align-content: center;
     color: #490A3D;
     background-color:lightblue;
+    cursor: pointer;
 }
 button:hover {
     background-color: #490A3D;

@@ -26,7 +26,6 @@ html {
     opacity: 0.9;
     filter: alpha(opacity=60);
     font-size: xx-large;
-
     display: flex;
     justify-content: center;
     align-content: center;
