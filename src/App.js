@@ -6,6 +6,7 @@ import Score from './component/Score/Score';
 import Helper from './utils/helper';
 import Constant from './utils/constant';
 import Message from './component/Alert/Message'
+import InputForm from './component/userInput/userInput'
 
 class App extends React.Component {
     constructor(props) {
@@ -97,6 +98,7 @@ class App extends React.Component {
                 <header>
                     <h1>2048 - Game</h1>
                 </header>
+                <InputForm />
                 <div className="content">
                     <Score score={ this.state.score } />
                     <Board dimension={ this.state.dim } matrix={ this.state.flatData }/>
