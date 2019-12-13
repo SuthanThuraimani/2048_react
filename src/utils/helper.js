@@ -1,41 +1,40 @@
 const zeroFilledArray = (n) => new Array(n).fill(0);
-const nonZeroFilter = (ary) => [...ary].filter(i => i);
+const nonZeroFilter = (ary) => ary.filter(i => i);
 const getInitialMatrix = (n) => zeroFilledArray(n).map(() => new Array(n).fill(0));
 const transpose = mat => mat[0].map((x, i) => mat.map(x => x[i]));
 
 //check if merge is possible in any direction
 const isGameActive = (data) => (isMovePossible(data) || isMovePossible(transpose(data))) 
-const isMovePossible = (aryMatrix) => {
-    return aryMatrix.some(b => {
-        return b.includes(0) || b.some((a, pos, self) => (pos - self.indexOf(a) === 1))
-    })
+const isMovePossible = (matrix) => {
+    return matrix.some(b => anyEmptyTile(b) || b.some(isAdjacentNumSame))
 };
+const anyEmptyTile = ary => ary.includes(0);
+const isAdjacentNumSame = (curr, pos, self) => (pos - self.indexOf(curr) === 1)
 
 //First calculate empty cells and find random index
 const insertRandomCell = (ary, val) => {
-    const presentMatrix = [...ary].flat();
+    const presentMatrix = ary.flat();
     const emptyCells = getEmptyCells(presentMatrix);
     const index = emptyCells[randomNumber(emptyCells.length)];
     presentMatrix[index] = val;
     return presentMatrix;
-}
-const randomNumber = (num) => Math.floor(Math.random() * num)
+} 
+const randomNumber = (len) => Math.floor(Math.random() * len)
 const getEmptyCells = (ary) => ary.map((ele, idx) => (ele === 0) ? idx : 'EMPTY').filter(ele => ele !== 'EMPTY');
-
 
 // Merge and move numbers in each row or column, 0->left,up 1->right,down
 // input: [[2,2,0,2],[2,0,0,2]], output: [[4,2,0,0],[4,0,0,0]]
-const processMatrix = (ary, dir, dim) => ary.map(row => processRow(row, dir, dim));
-const processRow = (ary, dir, len) => {
+const processMatrix =  (ary, dir, dim) => ary.map(row => processRow(row, dir, dim));
+const processRow =  (ary, dir, len) => {
     if (dir) {
-        return moveTiles( mergeRight(ary), dir, len);
+        return moveTiles(mergeRight(ary), dir, len);
     } else {
-        return moveTiles( mergeLeft(ary), dir, len);
-    } 
+        return moveTiles(mergeLeft(ary), dir, len);
+    }
 }
-const mergeLeft = (fdata) => [...fdata].reduce(addIdenticalValue, [])
-const mergeRight = (fdata) => [...fdata].reduceRight(addIdenticalValue, []).reverse();
-const addIdenticalValue = function (prev, next) {
+const mergeLeft = (fdata) => fdata.reduce(addIdenticalValue, [])
+const mergeRight = (fdata) => fdata.reduceRight(addIdenticalValue, []).reverse();
+const addIdenticalValue = (prev, next) => {
     const last = prev[prev.length - 1];
     if (last === next) {
         prev = [...prev.slice(0, -1), parseInt(last) + parseInt(next), 0];
