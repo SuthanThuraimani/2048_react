@@ -24,16 +24,21 @@ const getEmptyCells = (ary) => ary.map((ele, idx) => (ele === 0) ? idx : 'EMPTY'
 
 // Merge and move numbers in each row or column, 0->left,up 1->right,down
 // input: [[2,2,0,2],[2,0,0,2]], output: [[4,2,0,0],[4,0,0,0]]
-const processMatrix =  (ary, dir, dim) => ary.map(row => processRow(row, dir, dim));
-const processRow =  (ary, dir, len) => {
-    if (dir) {
-        return moveTiles(mergeRight(ary), dir, len);
-    } else {
-        return moveTiles(mergeLeft(ary), dir, len);
-    }
+const processMatrix =  (ary, dir, dim) => {
+   return dir? processRightMove(ary, dim): processLeftMove(ary, dim)
+};
+const processLeftMove =  (ary, dim) => ary.map(row => moveLeft(row, dim));
+const processRightMove =  (ary, dim) => ary.map(row => moveRight(row, dim));
+const moveLeft = (ary, len) => {
+    const nonZero = nonZeroFilter( mergeLeft(ary) );
+    return [...nonZero, ...zeroFilledArray(len - nonZero.length)]
 }
-const mergeLeft = (fdata) => fdata.reduce(addIdenticalValue, [])
-const mergeRight = (fdata) => fdata.reduceRight(addIdenticalValue, []).reverse();
+const moveRight = (ary, len) => {
+    const nonZero = nonZeroFilter( mergeRight(ary) );
+    return [...zeroFilledArray(len - nonZero.length), ...nonZero]
+}
+const mergeLeft = (rowData) => rowData.reduce(addIdenticalValue, [])
+const mergeRight = (rowData) => rowData.reduceRight(addIdenticalValue, []).reverse();
 const addIdenticalValue = (prev, next) => {
     const last = prev[prev.length - 1];
     if (last === next) {
@@ -42,14 +47,6 @@ const addIdenticalValue = (prev, next) => {
         prev.push(next);
     }
     return prev;
-}
-const moveTiles = (input, dir, len) => {
-    const nonZero = nonZeroFilter( input );
-    if (dir) {
-        return [...zeroFilledArray(len - nonZero.length), ...nonZero]
-    } else {
-        return [...nonZero, ...zeroFilledArray(len - nonZero.length)]
-    }    
 }
 
 //convert array to arraylist (matrix format)
