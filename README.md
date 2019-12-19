@@ -1,8 +1,7 @@
 
 # 2048 - Javascript App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+#### This project was developed using React-JS (create-react-app), Javascript Functional programming, HTML, CSS, jest-enzyme
 
 Functionalities Implemented:
 - This app can work with any size of matrix, it can be configured via utils/constants.js (MATRIX_DIMENSION = <any number>)
